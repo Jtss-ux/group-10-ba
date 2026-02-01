@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Business Analytics | Customer Satisfaction Survey</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Pacifico&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="survey-styles.css">
+</head>
+<body>
+  <!-- Particle Canvas for Click Effects -->
+  <canvas id="particle-canvas"></canvas>
+  
+  <!-- Loader -->
+  <div id="loading">
+    <canvas id="matrix-canvas"></canvas>
+    <span class="loading-text">Group-10</span>
+    <span class="standby-text">Preparing Survey<span class="wavy-dots"><span>.</span><span>.</span><span>.</span></span></span>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero-bg">
+    <canvas class="matrix-overlay" id="matrixBg"></canvas>
+    <div class="hero-content">
+      <div class="hero-title">📊 Customer Satisfaction Survey</div>
+      <div class="hero-type" id="typewriter"></div>
+      <div class="hero-roles">GROUP-10: KC | NIRANJAN | VAISHAVI | JOSEPH | JOSHUA</div>
+    </div>
+  </div>
+
+  <div id="mainContentWithMetaballs">
+    <canvas id="metaballs-bg"></canvas>
+    <div class="main-container">
+      <!-- Survey Introduction Card -->
+      <div class="glass-card intro-card">
+        <div class="intro-icon">🎯</div>
+        <h2 class="intro-title">Welcome to Our Research Study!</h2>
+        <p class="intro-desc">
+          <strong>Topic:</strong> Customer Satisfaction and Repeat Purchase Behavior in Local Café/Retail Businesses
+        </p>
+        <p class="intro-aim">
+          <strong>Aim:</strong> To analyze factors influencing customer satisfaction and loyalty, including service quality, ambience, pricing, and convenience, to provide actionable recommendations for business improvement.
+        </p>
+        <div class="intro-note">
+          <span class="note-icon">⏱️</span> Takes only 3-4 minutes to complete
+        </div>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="progress-container glass-card">
+        <div class="progress-header">
+          <span id="step-label">Step 1 of 7</span>
+          <span id="percent-label">14%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <div class="progress-steps">
+          <div class="step-dot active" data-step="1">👤</div>
+          <div class="step-dot" data-step="2">🧾</div>
+          <div class="step-dot" data-step="3">🏪</div>
+          <div class="step-dot" data-step="4">⏱️</div>
+          <div class="step-dot" data-step="5">💰</div>
+          <div class="step-dot" data-step="6">⭐</div>
+          <div class="step-dot" data-step="7">🔁</div>
+        </div>
+      </div>
+
+      <!-- Survey Form -->
+      <form id="surveyForm" class="survey-form">
+        <!-- Tab 1: Basic Details -->
+        <div class="survey-tab glass-card" id="tab-1">
+          <div class="sticky-section-title">
+            <span class="card-emoji-anim">👤</span> Basic Information
+          </div>
+          <div class="form-group">
+            <label for="name">Full Name <span class="required">*</span></label>
+            <input type="text" id="name" name="name" required placeholder="Enter your name">
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address <span class="required">*</span></label>
+            <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+          </div>
+          <div class="form-group">
+            <label for="age">Age Group <span class="required">*</span></label>
+            <select id="age" name="age" required>
+              <option value="">Select age group</option>
+              <option value="below-18">Below 18 years</option>
+              <option value="18-24">18-24 years</option>
+              <option value="25-34">25-34 years</option>
+              <option value="35-44">35-44 years</option>
+              <option value="45-54">45-54 years</option>
+              <option value="55+">55+ years</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="gender">Gender <span class="required">*</span></label>
+            <select id="gender" name="gender" required>
+              <option value="">Select gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+              <option value="prefer-not">Prefer not to say</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="visit_frequency">How often do you visit cafés/retail stores? <span class="required">*</span></label>
+            <select id="visit_frequency" name="visit_frequency" required>
+              <option value="">Select frequency</option>
+              <option value="daily">Daily</option>
+              <option value="weekly">2-3 times a week</option>
+              <option value="monthly">Few times a month</option>
+              <option value="rarely">Rarely</option>
+            </select>
+          </div>
+          <div class="nav-buttons">
+            <button type="button" class="btn-nav btn-next" onclick="changeTab(1)">
+              Next <span class="btn-arrow">→</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tab 2: Section A - Service & Staff -->
+        <div class="survey-tab glass-card" id="tab-2" style="display:none;">
+          <div class="sticky-section-title">
+            <span class="card-emoji-anim">🧾</span> Section A: Service & Staff
+          </div>
+          <p class="section-instruction">Rate the following statements on a scale of 1-5</p>
+          <div class="rating-legend">
+            <span>1 = Strongly Disagree</span>
+            <span>5 = Strongly Agree</span>
+          </div>
+          
+          <div class="question-block">
+            <p class="question-text">1. The staff is polite and courteous while interacting with customers.</p>
+            <div class="rating-scale" data-question="q1">
+              <label class="rating-option"><input type="radio" name="q1" value="1" required><span>1</span></label>
+              <label class="rating-option"><input type="radio" name="q1" value="2"><span>2</span></label>
+              <label class="rating-option"><input type="radio" name="q1" value="3"><span>3</span></label>
+              <label class="rating-option"><input type="radio" name="q1" value="4"><span>4</span></label>
+              <label class="rating-option"><input type="radio" name="q1" value="5"><span>5</span></label>
+            </div>
+          </div>
+
+          <div class="question-block">
+            <p class="question-text">2. Employees respond quickly to customer needs and requests.</p>
+            <div class="rating-scale" data-question="q2">
+              <label class="rating-option"><input type="radio" name="q2" value="1" required><span>1</span></label>
+              <label class="rating-option"><input type="radio" name="q2" value="2"><span>2</span></label>
+              <label class="rating-option"><input type="radio" name="q2" value="3"><span>3</span></label>
+              <label class="rating-option"><input type="radio" name="q2" value="4"><span>4</span></label>
+              <label class="rating-option"><input type="radio" name="q2" value="5"><span>5</span></label>
+            </div>
+          </div>
+
+          <div class="question-block">
+            <p class="question-text">3. Staff members are knowledgeable about the products or services offered.</p>
+            <div class="rating-scale" data-question="q3">
+              <label class="rating-option"><input type="radio" name="q3" value="1" required><span>1</span></label>
+              <label class="rating-option"><input type="radio" name="q3" value="2"><span>2</span></label>
+              <label class="rating-option"><input type="radio" name="q3" value="3"><span>3</span></label>
+              <label class="rating-option"><input type="radio" name="q3" value="4"><span>4</span></label>
+              <label class="rating-option"><input type="radio" name="q3" value="5"><span>5</span></label>
+            </div>
+          </div>
+
+          <div class="question-block">
+            <p class="question-text">4. I feel welcomed and valued as a customer in this place.</p>
+            <div class="rating-scale" data-question="q4">
+              <label class="rating-option"><input type="radio" name="q4" value="1" required><span>1</span></label>
+              <label class="rating-option"><input type="radio" name="q4" value="2"><span>2</span></label>
+              <label class="rating-option"><input type="radio" name="q4" value="3"><span>3</span></label>
+              <label class="rating-option"><input type="radio" name="q4" value="4"><span>4</span></label>
+              <label class="rating-option"><input type="radio" name="q4" value="5"><span>5</span></label>
+            </div>
+          </div>
+
+          <div class="nav-buttons">
+            <button type="button" class="btn-nav btn-prev" onclick="changeTab(-1)">
+              <span class="btn-arrow">←</span> Previous
+            </button>
+            <button type="button" class="btn-nav btn-next" onclick="changeTab(1)">
+              Next <span class="btn-arrow">→</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tab 3: Section B - Ambience & Environment -->
+        <div class="survey-tab glass-card" id="tab-3" style="display:none;">
+          <div class="sticky-section-title">
+            <span class="card-emoji-anim">🏪</span> Section B: Ambience & Environment
+          </div>
+          <p class="section-instruction">Rate the following statements on a scale of 1-5</p>
+          <div class="rating-legend">
+            <span>1 = Strongly Disagree</span>
+            <span>5 = Strongly Agree</span>
+          </div>
+
+          <div class="question-block">
+            <p class="question-text">5. The overall ambience of the café/store is comfortable and pleasant.</p>
+            <div class="rating-scale" data-question="q5">
+              <label class="rating-option"><input type="radio" name="q5" value="1" required><span>1</span></label>
+              <label class="rating-option"><input type="radio" name="q5" value="2"><span>2</span></label>
+              <label class="rating-option"><input type="radio" name="q5" value="3"><span>3</span></label>
+              <label class="rating-option"><input type="radio" name="q5" value="4"><span>4</span></label>
+              <label class="rating-option"><input type="radio" name="q5" value="5"><span>5</span></label>
+            </div>
+          </div>
+
+          <div class="question-block">
+            <p class="question-text">6. Cleanliness and hygiene are well maintained at all times.</p>
+            <div class="rating-scale" data-question="q6">
+              <label class="rating-option"><input type="radio" name="q6" value="1" required><span>1</span></label>
+              <label class="rating-option"><input type="radio" name="q6" value="2"><span>2</span></label>
+              <label class="rating-option"><input type="radio" name="q6" value="3"><span>3</span></label>
+              <label class="rating-option"><input type="radio" name="q6" value="4"><span>4</span></label>
+              <label class="rating-option"><input type="radio" name="q6" value="5"><span>5</span></label>
+            </div>
+          </div>
+
+          <div class="question-block">
+            <p class="question-text">7. The seating or shopping space is arranged in a convenient manner.</p>
+            <div class="rating-scale" data-question="q7">
+              <label class="rating-option"><input type="radio" name="q7" value="1" required><span>1</span></label>
+              <label class="rating-option"><input type="radio" name="q7" value="2"><span>2</span></label>
+              <label class="rating-option"><input type="radio" name="q7" value="3"><span>3</span></label>
+              <label class="rating-option"><input type="radio" name="q7" value="4"><span>4</span></label>
+              <label class="rating-option"><input type="radio" name="q7" value="5"><span>5</span></label>
+            </div>
+          </div>
+
+          <div class="question-block">
+            <p class="question-text">8. The environment makes me feel relaxed and comfortable.</p>
+            <div class="rating-scale" data-question="q8">
+              <label class="rating-option"><input type="radio" name="q8" value="1" required><span>1</span></label>
+              <label class="rating-option"><input type="radio" name="q8" value="2"><span>2</span></label>
+              <label class="rating-option"><input type="radio" name="q8" value="3"><span>3</span></label>
+              <label class="rating-option"><input type="radio" name="q8" value="4"><span>4</span></label>
+              <label class="rating-option"><input type="radio" name="q8" value="5"><span>5</span></label>
+            </div>
+          </div>
+
+          <div class="nav-buttons">
+            <button type="button" class="btn-nav btn-prev" onclick="changeTab(-1)">
+              <span class="btn-arrow">←</span> Previous
+            </button>
+            <button type="button" class="btn-nav btn-next" onclick="changeTab(1)">
+              Next <span class="btn-arrow">→</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tab 4: Section C - Time & Convenience -->
+        <div class="survey-tab glass-card" id="tab-4" style="display:none;">
+          <div class="sticky-section-title">
+            <span class="card-emoji-anim">⏱️</span> Section C: Time & Convenience
+          </div>
+          <p class="section-instruction">Rate the following statements on a scale of 1-5</p>
+          <div class="rating-legend">
+            <span>1 = Strongly Disagree</span>
+            <span>5 = Strongly Agree</span>
+          </div>
+
+          <div class="question-block">
+            <p class="question-text">9. The waiting time for service or billing is reasonable.</p>
+            <div class="rating-scale" data-question="q9">
+              <label class="rating-option"><input type="radio" name="q9" value="1" required><span>1</span></label>
+              <label class="rating-option"><input type="radio" name="q9" value="2"><span>2</span></label>
+              <label class="rating-option"><input type="radio" name="q9" value="3"><span>3</span></label>
+              <label class="rating-option"><input type="radio" name="q9" value="4"><span>4</span></label>
+              <label class="rating-option"><input type="radio" name="q9" value="5"><span>5</span></label>
+            </div>
+          </div>
+
+          <div class="question-block">
+            <p class="question-text">10. The service process is smooth and well organised.</p>
+            <div class="rating-scale" data-question="q10">
+              <label class="rating-option"><input type="radio" name="q10" value="1" required><span>1</span></label>
+              <label class="rating-option"><input type="radio" name="q10" value="2"><span>2</span></label>
+              <label class="rating-option"><input type="radio" name="q10" value="3"><span>3</span></label>
+              <label class="rating-option"><input type="radio" name="q10" value="4"><span>4</span></label>
+              <label class="rating-option"><input type="radio" name="q10" value="5"><span>5</span></label>
+            </div>
+          </div>
+
+          <div class="question-block">
+            <p class="question-text">11. The business operates at timings that are convenient for me.</p>
+            <div class="rating-scale" data-question="q11">
+              <label class="rating-option"><input type="radio" name="q11" value="1" required><span>1</span></label>
+              <label class="rating-option"><input type="radio" name="q11" value="2"><span>2</span></label>
+              <label class="rating-option"><input type="radio" name="q11" value="3"><span>3</span></label>
+              <label class="rating-option"><input type="radio" name="q11" value="4"><span>4</span></label>
+              <label class="rating-option"><input type="radio" name="q11" value="5"><span>5</span></label>
+            </div>
+          </div>
+
+          <div class="nav-buttons">
+            <button type="button" class="btn-nav btn-prev" onclick="changeTab(-1)">
+              <span class="btn-arrow">←</span> Previous
+            </button>
+            <button type="button" class="btn-nav btn-next" onclick="changeTab(1)">
+              Next <span class="btn-arrow">→</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tab 5: Section D - Pricing & Value -->
+        <div class="survey-tab glass-card" id="tab-5" style="display:none;">
+          <div class="sticky-section-title">
+            <span class="card-emoji-anim">💰</span> Section D: Pricing & Value
+          </div>
+          <p class="section-instruction">Rate the following statements on a scale of 1-5</p>
+          <div class="rating-legend">
+            <span>1 = Strongly Disagree</span>
+            <span>5 = Strongly Agree</span>
+          </div>
+
+          <div class="question-block">
+            <p class="question-text">12. The prices charged are fair for the quality provided.</p>
+            <div class="rating-scale" data-question="q12">
+              <label class="rating-option"><input type="radio" name="q12" value="1" required><span>1</span></label>
+              <label class="rating-option"><input type="radio" name="q12" value="2"><span>2</span></label>
+              <label class="rating-option"><input type="radio" name="q12" value="3"><span>3</span></label>
+              <label class="rating-option"><input type="radio" name="q12" value="4"><span>4</span></label>
+              <label class="rating-option"><input type="radio" name="q12" value="5"><span>5</span></label>
+            </div>
+          </div>
+
+          <div class="question-block">
+            <p class="question-text">13. I feel that I receive good value for the money I spend here.</p>
+            <div class="rating-scale" data-question="q13">
+              <label class="rating-option"><input type="radio" name="q13" value="1" required><span>1</span></label>
+              <label class="rating-option"><input type="radio" name="q13" value="2"><span>2</span></label>
+              <label class="rating-option"><input type="radio" name="q13" value="3"><span>3</span></label>
+              <label class="rating-option"><input type="radio" name="q13" value="4"><span>4</span></label>
+              <label class="rating-option"><input type="radio" name="q13" value="5"><span>5</span></label>
+            </div>
+          </div>
+
+          <div class="question-block">
+            <p class="question-text">14. Discounts or offers, when available, are attractive and useful.</p>
+            <div class="rating-scale" data-question="q14">
+              <label class="rating-option"><input type="radio" name="q14" value="1" required><span>1</span></label>
+              <label class="rating-option"><input type="radio" name="q14" value="2"><span>2</span></label>
+              <label class="rating-option"><input type="radio" name="q14" value="3"><span>3</span></label>
+              <label class="rating-option"><input type="radio" name="q14" value="4"><span>4</span></label>
+              <label class="rating-option"><input type="radio" name="q14" value="5"><span>5</span></label>
+            </div>
+          </div>
+
+          <div class="nav-buttons">
+            <button type="button" class="btn-nav btn-prev" onclick="changeTab(-1)">
+              <span class="btn-arrow">←</span> Previous
+            </button>
+            <button type="button" class="btn-nav btn-next" onclick="changeTab(1)">
+              Next <span class="btn-arrow">→</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tab 6: Section E - Overall Satisfaction -->
+        <div class="survey-tab glass-card" id="tab-6" style="display:none;">
+          <div class="sticky-section-title">
+            <span class="card-emoji-anim">⭐</span> Section E: Overall Satisfaction
+          </div>
+          <p class="section-instruction">Rate your level of satisfaction</p>
+          <div class="rating-legend">
+            <span>1 = Very Dissatisfied</span>
+            <span>5 = Very Satisfied</span>
+          </div>
+
+          <div class="question-block">
+            <p class="question-text">15. I am satisfied with my overall experience at this café/store.</p>
+            <div class="rating-scale labeled-scale" data-question="q15">
+              <label class="rating-option"><input type="radio" name="q15" value="1" required><span>Very Dissatisfied</span></label>
+              <label class="rating-option"><input type="radio" name="q15" value="2"><span>Dissatisfied</span></label>
+              <label class="rating-option"><input type="radio" name="q15" value="3"><span>Neutral</span></label>
+              <label class="rating-option"><input type="radio" name="q15" value="4"><span>Satisfied</span></label>
+              <label class="rating-option"><input type="radio" name="q15" value="5"><span>Very Satisfied</span></label>
+            </div>
+          </div>
+
+          <div class="question-block">
+            <p class="question-text">16. The quality of products or services meets my expectations.</p>
+            <div class="rating-scale labeled-scale" data-question="q16">
+              <label class="rating-option"><input type="radio" name="q16" value="1" required><span>Very Poor</span></label>
+              <label class="rating-option"><input type="radio" name="q16" value="2"><span>Poor</span></label>
+              <label class="rating-option"><input type="radio" name="q16" value="3"><span>Average</span></label>
+              <label class="rating-option"><input type="radio" name="q16" value="4"><span>Good</span></label>
+              <label class="rating-option"><input type="radio" name="q16" value="5"><span>Excellent</span></label>
+            </div>
+          </div>
+
+          <div class="question-block">
+            <p class="question-text">17. This place performs better compared to similar businesses nearby.</p>
+            <div class="rating-scale labeled-scale" data-question="q17">
+              <label class="rating-option"><input type="radio" name="q17" value="1" required><span>Much Worse</span></label>
+              <label class="rating-option"><input type="radio" name="q17" value="2"><span>Worse</span></label>
+              <label class="rating-option"><input type="radio" name="q17" value="3"><span>About Same</span></label>
+              <label class="rating-option"><input type="radio" name="q17" value="4"><span>Better</span></label>
+              <label class="rating-option"><input type="radio" name="q17" value="5"><span>Much Better</span></label>
+            </div>
+          </div>
+
+          <div class="nav-buttons">
+            <button type="button" class="btn-nav btn-prev" onclick="changeTab(-1)">
+              <span class="btn-arrow">←</span> Previous
+            </button>
+            <button type="button" class="btn-nav btn-next" onclick="changeTab(1)">
+              Next <span class="btn-arrow">→</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tab 7: Section F - Loyalty & Repeat Purchase + Feedback -->
+        <div class="survey-tab glass-card" id="tab-7" style="display:none;">
+          <div class="sticky-section-title">
+            <span class="card-emoji-anim">🔁</span> Section F: Loyalty & Repeat Purchase
+          </div>
+          <p class="section-instruction">Rate your likelihood for the following</p>
+          <div class="rating-legend">
+            <span>1 = Definitely Not</span>
+            <span>5 = Definitely</span>
+          </div>
+
+          <div class="question-block">
+            <p class="question-text">18. I intend to visit this café/store again in the future.</p>
+            <div class="rating-scale labeled-scale" data-question="q18">
+              <label class="rating-option"><input type="radio" name="q18" value="1" required><span>Definitely Not</span></label>
+              <label class="rating-option"><input type="radio" name="q18" value="2"><span>Probably Not</span></label>
+              <label class="rating-option"><input type="radio" name="q18" value="3"><span>Possibly</span></label>
+              <label class="rating-option"><input type="radio" name="q18" value="4"><span>Probably</span></label>
+              <label class="rating-option"><input type="radio" name="q18" value="5"><span>Definitely</span></label>
+            </div>
+          </div>
+
+          <div class="question-block">
+            <p class="question-text">19. I would recommend this café/store to friends and family.</p>
+            <div class="rating-scale labeled-scale" data-question="q19">
+              <label class="rating-option"><input type="radio" name="q19" value="1" required><span>Definitely Not</span></label>
+              <label class="rating-option"><input type="radio" name="q19" value="2"><span>Probably Not</span></label>
+              <label class="rating-option"><input type="radio" name="q19" value="3"><span>Possibly</span></label>
+              <label class="rating-option"><input type="radio" name="q19" value="4"><span>Probably</span></label>
+              <label class="rating-option"><input type="radio" name="q19" value="5"><span>Definitely</span></label>
+            </div>
+          </div>
+
+          <div class="question-block">
+            <p class="question-text">20. I prefer this café/store over other available alternatives.</p>
+            <div class="rating-scale labeled-scale" data-question="q20">
+              <label class="rating-option"><input type="radio" name="q20" value="1" required><span>Strongly Disagree</span></label>
+              <label class="rating-option"><input type="radio" name="q20" value="2"><span>Disagree</span></label>
+              <label class="rating-option"><input type="radio" name="q20" value="3"><span>Neutral</span></label>
+              <label class="rating-option"><input type="radio" name="q20" value="4"><span>Agree</span></label>
+              <label class="rating-option"><input type="radio" name="q20" value="5"><span>Strongly Agree</span></label>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 25px;">
+            <label for="feedback">💬 Additional Comments or Suggestions (Optional)</label>
+            <textarea id="feedback" name="feedback" rows="4" placeholder="Share your thoughts, suggestions, or any specific feedback..."></textarea>
+          </div>
+
+          <div class="nav-buttons">
+            <button type="button" class="btn-nav btn-prev" onclick="changeTab(-1)">
+              <span class="btn-arrow">←</span> Previous
+            </button>
+            <button type="submit" class="btn-nav btn-submit" id="submitBtn">
+              <span class="btn-text">Submit Survey</span>
+              <span class="btn-loader" style="display:none;">⏳</span>
+              <span class="confetti-trigger">🎉</span>
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <!-- Success Message (Hidden by default) -->
+      <div id="success-message" class="glass-card success-card" style="display:none;">
+        <div class="success-icon">🎊</div>
+        <h2 class="success-title">Thank You!</h2>
+        <p class="success-text">Your response has been recorded successfully.</p>
+        <p class="success-subtext">Your feedback will help us analyze customer satisfaction and improve business services.</p>
+        <div class="success-stats">
+          <div class="stat-item">
+            <span class="stat-icon">📊</span>
+            <span class="stat-label">Data sent to Google Sheets</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-icon">🗄️</span>
+            <span class="stat-label">Stored in Supabase Database</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-icon">📧</span>
+            <span class="stat-label">Email notification sent</span>
+          </div>
+        </div>
+        <button class="btn-nav btn-restart" onclick="location.reload()">
+          Submit Another Response
+        </button>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer-creative">
+        <div>Made with lots of love❤️ <span style="font-size:1.2em;">&</span> caffeine☕</div>
+        <div class="footer-group">Group-10 | Business Analytics Live Project</div>
+        <div id="footer-localtime"></div>
+        <div class="footer-links">
+          <a href="mailto:jtss0287@gmail.com">Email</a> |
+          <a href="https://jtsportfolio.netlify.app/" target="_blank">About Me</a> |
+          <a href="https://www.linkedin.com/in/josephthomasstalin/" target="_blank">LinkedIn</a> |
+          <span class="dark-toggle" onclick="document.body.classList.toggle('dark-mode')">🌓 Toggle Dark/Light</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confetti Canvas -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Scripts -->
+  <script src="survey-script.js"></script>
+</body>
+</html>
